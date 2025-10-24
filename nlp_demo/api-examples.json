@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "NLP工具API示例",
+    "description": "NLP工具服务的API请求示例集合",
+    "version": "1.0.0"
+  },
+  "examples": [
+    {
+      "name": "完整NLP处理 - 英文",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/process",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "I can't believe it's raining today! 😊 Apple Inc. is located in California.",
+        "language": "auto",
+        "enableAll": true
+      }
+    },
+    {
+      "name": "完整NLP处理 - 中文",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/process",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "今天天气真不错！😊 我在北京大学学习自然语言处理。",
+        "language": "zh",
+        "enableAll": true
+      }
+    },
+    {
+      "name": "英文分词",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/tokenize",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "Natural Language Processing is amazing!",
+        "language": "en"
+      }
+    },
+    {
+      "name": "中文分词",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/tokenize",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "我爱自然语言处理技术",
+        "language": "zh"
+      }
+    },
+    {
+      "name": "拼写检查",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/spell-check",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "I have a speling mistake in this sentance.",
+        "language": "en"
+      }
+    },
+    {
+      "name": "命名实体识别 - 英文",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/ner",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "Barack Obama was born in Hawaii and became the President of the United States in 2009.",
+        "language": "en"
+      }
+    },
+    {
+      "name": "命名实体识别 - 中文",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/ner",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "马云创立了阿里巴巴集团，总部位于杭州。",
+        "language": "zh"
+      }
+    },
+    {
+      "name": "表情符号处理",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/emoji",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "Hello! 😊 How are you? 👋 I'm so happy! 🎉🎊"
+      }
+    },
+    {
+      "name": "缩写还原测试",
+      "method": "POST",
+      "url": "http://localhost:8080/api/nlp/process",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "keyword": "I can't wait to see u tmrw! BTW, thx for the help.",
+        "language": "en",
+        "enableAll": false,
+        "enableAbbreviationExpansion": true
+      }
+    },
+    {
+      "name": "健康检查",
+      "method": "GET",
+      "url": "http://localhost:8080/api/nlp/health",
+      "headers": {}
+    },
+    {
+      "name": "获取帮助文档",
+      "method": "GET",
+      "url": "http://localhost:8080/api/nlp/help",
+      "headers": {}
+    }
+  ]
+}
+

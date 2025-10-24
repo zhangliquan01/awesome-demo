@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# gRPC Hello World 示例运行脚本
+
+BUILD_DIR="@CMAKE_CURRENT_BINARY_DIR@"
+PROJECT_ROOT="@CMAKE_CURRENT_SOURCE_DIR@"
+
+echo "=== gRPC Hello World 示例 ==="
+echo ""
+
+function print_usage() {
+    echo "用法:"
+    echo "  $0 server                    # 启动gRPC服务器"
+    echo "  $0 client [grpc_addr] [port] # 启动HTTP客户端"
+    echo "  $0 test                      # 运行简单测试"
+    echo ""
+    echo "参数:"
+    echo "  grpc_addr: gRPC服务器地址 (默认: localhost:50051)"
+    echo "  port:      HTTP服务器端口 (默认: 8080)"
+    echo ""
+    echo "示例:"
+    echo "  $0 server"
+    echo "  $0 client"
+    echo "  $0 client localhost:50051 8080"
+}
+
+case "$1" in
+    "server")
+        echo "启动gRPC服务器..."
+        "${BUILD_DIR}/hello_server"
+        ;;
+    "client")
+        GRPC_ADDR="${2:-localhost:50051}"
+        HTTP_PORT="${3:-8080}"
+        echo "启动HTTP客户端..."
+        echo "gRPC服务器地址: $GRPC_ADDR"
+        echo "HTTP服务器端口: $HTTP_PORT"
+        echo "访问 http://localhost:$HTTP_PORT 查看接口"
+        "${BUILD_DIR}/hello_client" "$GRPC_ADDR" "$HTTP_PORT"
+        ;;
+    "test")
+        echo "运行测试..."
+        echo "注意: 请确保gRPC服务器已在localhost:50051上运行"
+        echo ""
+        echo "测试gRPC连接..."
+        timeout 5 "${BUILD_DIR}/hello_client" localhost:50051 8081 &
+        CLIENT_PID=$!
+        sleep 2
+        
+        echo "测试HTTP接口..."
+        curl -s "http://localhost:8081/hello?name=测试用户" | python3 -m json.tool 2>/dev/null || echo "JSON解析失败"
+        
+        kill $CLIENT_PID 2>/dev/null
+        ;;
+    *)
+        print_usage
+        exit 1
+        ;;
+esac

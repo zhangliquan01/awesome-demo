@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Plugin-Main-Class: com.example.plugin.complex.DataProcessingPlugin
+Plugin-Name: Data Processing Plugin
+Plugin-Version: 2.0.0
+Plugin-Description: 高级数据处理插件，提供数据验证、清洗、转换、分析和报告生成功能
+Plugin-Author: Plugin Developer
+Plugin-Website: https://example.com/plugins/data-processing
+Plugin-License: MIT
+Plugin-Min-Java-Version: 11
+Plugin-Dependencies: jackson-databind,commons-lang3,commons-csv,commons-math3
+Created-By: Maven Shade Plugin
+Build-Jdk-Spec: 11

@@ -1,0 +1,103 @@
+# GraphQL Schema定义
+
+# 作者类型
+type Author {
+    id: ID!
+    name: String!
+    email: String!
+    bio: String
+    books: [Book!]!
+}
+
+# 图书类型
+type Book {
+    id: ID!
+    title: String!
+    isbn: String!
+    description: String
+    author: Author!
+    price: Float!
+    publishYear: Int!
+}
+
+# 创建作者输入
+input CreateAuthorInput {
+    name: String!
+    email: String!
+    bio: String
+}
+
+# 更新作者输入
+input UpdateAuthorInput {
+    id: ID!
+    name: String
+    email: String
+    bio: String
+}
+
+# 创建图书输入
+input CreateBookInput {
+    title: String!
+    isbn: String!
+    description: String
+    authorId: ID!
+    price: Float!
+    publishYear: Int!
+}
+
+# 更新图书输入
+input UpdateBookInput {
+    id: ID!
+    title: String
+    isbn: String
+    description: String
+    authorId: ID
+    price: Float
+    publishYear: Int
+}
+
+# 查询操作
+type Query {
+    # 获取所有作者
+    allAuthors: [Author!]!
+    
+    # 根据ID获取作者
+    authorById(id: ID!): Author
+    
+    # 根据名称搜索作者
+    authorsByName(name: String!): [Author!]!
+    
+    # 获取所有图书
+    allBooks: [Book!]!
+    
+    # 根据ID获取图书
+    bookById(id: ID!): Book
+    
+    # 根据标题搜索图书
+    booksByTitle(title: String!): [Book!]!
+    
+    # 根据作者ID获取图书
+    booksByAuthor(authorId: ID!): [Book!]!
+}
+
+# 变更操作
+type Mutation {
+    # 创建作者
+    createAuthor(input: CreateAuthorInput!): Author!
+    
+    # 更新作者
+    updateAuthor(input: UpdateAuthorInput!): Author!
+    
+    # 删除作者
+    deleteAuthor(id: ID!): Boolean!
+    
+    # 创建图书
+    createBook(input: CreateBookInput!): Book!
+    
+    # 更新图书
+    updateBook(input: UpdateBookInput!): Book!
+    
+    # 删除图书
+    deleteBook(id: ID!): Boolean!
+}
+

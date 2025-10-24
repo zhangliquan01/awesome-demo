@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphiQL - GraphQL Demo</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            width: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        #graphiql {
+            height: 100vh;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+    
+    <!-- 使用稳定的CDN资源 -->
+    <link rel="stylesheet" href="https://unpkg.com/graphiql@2.4.7/graphiql.min.css" />
+</head>
+<body>
+    <div id="graphiql" class="loading">
+        <div>正在加载 GraphiQL...</div>
+    </div>
+
+    <!-- React依赖 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- GraphiQL -->
+    <script crossorigin src="https://unpkg.com/graphiql@2.4.7/graphiql.min.js"></script>
+
+    <script>
+        // 直接使用固定的GraphQL端点，不依赖模板变量
+        const graphqlEndpoint = '/graphql';
+        
+        // GraphQL fetcher函数
+        const fetcher = GraphiQL.createFetcher({
+            url: graphqlEndpoint,
+        });
+
+        // 渲染GraphiQL
+        const root = ReactDOM.createRoot(document.getElementById('graphiql'));
+        root.render(
+            React.createElement(GraphiQL, {
+                fetcher: fetcher,
+                defaultQuery: `# 欢迎使用 GraphiQL
+# 
+# GraphiQL 是一个用于探索GraphQL的交互式工具
+# 
+# 快速开始：
+# 1. 在左侧输入GraphQL查询
+# 2. 点击"执行"按钮（或按 Ctrl+Enter）
+# 3. 在右侧查看结果
+#
+# 示例查询：
+
+query {
+  allAuthors {
+    id
+    name
+    email
+    books {
+      title
+      price
+    }
+  }
+}
+
+# 提示：
+# - 按 Ctrl+Space 查看自动补全
+# - 点击右上角的 "Docs" 查看API文档
+# - 点击右上角的 "History" 查看历史记录
+`,
+                // 启用查询历史
+                storage: window.localStorage,
+                
+                // 其他配置
+                shouldPersistHeaders: true,
+                
+                // 自定义标题
+                headerEditorEnabled: true,
+                
+                // 显示文档浏览器
+                docExplorerOpen: false,
+            })
+        );
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('GraphiQL加载错误:', e);
+            document.getElementById('graphiql').innerHTML = 
+                '<div style="padding: 20px; color: #d32f2f;">' +
+                '<h2>⚠️ GraphiQL 加载失败</h2>' +
+                '<p>可能的原因：</p>' +
+                '<ul>' +
+                '<li>网络连接问题</li>' +
+                '<li>CDN资源被阻止</li>' +
+                '<li>浏览器不兼容</li>' +
+                '</ul>' +
+                '<p>请尝试：</p>' +
+                '<ul>' +
+                '<li>刷新页面</li>' +
+                '<li>检查网络连接</li>' +
+                '<li>使用备用测试工具: <a href="/graphql-test.html">/graphql-test.html</a></li>' +
+                '</ul>' +
+                '</div>';
+        });
+
+        // 检测资源加载状态
+        setTimeout(function() {
+            if (typeof GraphiQL === 'undefined' || typeof React === 'undefined') {
+                console.error('GraphiQL或React未能加载');
+                document.getElementById('graphiql').innerHTML = 
+                    '<div style="padding: 20px; text-align: center;">' +
+                    '<h2>⚠️ 资源加载超时</h2>' +
+                    '<p>CDN资源可能加载缓慢或被阻止</p>' +
+                    '<p>建议使用备用测试工具：</p>' +
+                    '<a href="/graphql-test.html" style="display: inline-block; padding: 10px 20px; background: #e10098; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px;">打开备用测试工具</a>' +
+                    '</div>';
+            }
+        }, 10000); // 10秒超时
+    </script>
+</body>
+</html>
+

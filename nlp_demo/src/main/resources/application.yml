@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: nlp-demo
+
+# NLP配置
+nlp:
+  # 语言检测阈值
+  language-detection-threshold: 0.5
+  # 是否启用缓存
+  enable-cache: true
+  # 最大文本长度
+  max-text-length: 10000
+
+# 日志配置
+logging:
+  level:
+    com.nlp: INFO
+    org.springframework: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
